@@ -5,4 +5,14 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
 
+        <servlet>
+            <servlet-name>IndexController</servlet-name>
+            <servlet-class>cn.liuxi.web.IndexController</servlet-class>
+        </servlet>
+
+       <servlet-mapping>
+           <servlet-name>IndexController</servlet-name>
+           <url-pattern>/indexController</url-pattern>
+       </servlet-mapping>
+
 </web-app>

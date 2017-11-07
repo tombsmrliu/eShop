@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <!-- 登录 注册 购物车... -->
 <div class="container-fluid">
-	<div class="col-md-4" style="position:relative;">
-		<img src="img/logo2.png" style="position: absolute;left: 0;top:-45px;max-height: 140px"/>
+	<div class="col-md-4">
+		<img src="img/logo2.png" />
 	</div>
 	<div class="col-md-5">
 		<img src="img/header.png" />
