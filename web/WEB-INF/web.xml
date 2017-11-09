@@ -15,4 +15,25 @@
            <url-pattern>/indexController</url-pattern>
        </servlet-mapping>
 
+       <servlet>
+           <servlet-name>ProductListController</servlet-name>
+           <servlet-class>cn.liuxi.web.ProductListController</servlet-class>
+       </servlet>
+
+       <servlet-mapping>
+           <servlet-name>ProductListController</servlet-name>
+           <url-pattern>/productListController</url-pattern>
+       </servlet-mapping>
+
+
+       <servlet>
+           <servlet-name>ProductDetailController</servlet-name>
+           <servlet-class>cn.liuxi.web.ProductDetailController</servlet-class>
+       </servlet>
+
+      <servlet-mapping>
+          <servlet-name>ProductDetailController</servlet-name>
+          <url-pattern>/productDetailController</url-pattern>
+      </servlet-mapping>
+
 </web-app>

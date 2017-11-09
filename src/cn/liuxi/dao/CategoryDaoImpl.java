@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class CategoryDao {
+public class CategoryDaoImpl implements ICategoryDao{
 
-    public List<Map<String,Object>> queryCategory() throws SQLException {
+    public List<Map<String,Object>> queryCategoryAll() throws SQLException {
 
             //1.创建QueryRunner对象
             QueryRunner queryRunner = new QueryRunner(DataSourceUtils.getDataSource());

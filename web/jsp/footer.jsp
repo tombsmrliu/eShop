@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <div class="container-fluid">
 	<div style="margin-top:50px;">
-		<img src="img/footer.jpg" width="100%" height="78" alt="我们的优势" title="我们的优势" />
+		<img src="jsp/img/footer.jpg" width="100%" height="78" alt="我们的优势" title="我们的优势" />
 	</div>
 
 	<div style="text-align: center;margin-top: 5px;">
@@ -20,6 +20,6 @@
 		</ul>
 	</div>
 	<div style="text-align: center;margin-top: 5px;margin-bottom:20px;">
-		Copyright &copy; 2005-2016 传智商城 版权所有
+		Copyright &copy; 2006-2017 w-Shopping商城 版权所有
 	</div>
 </div>

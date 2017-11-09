@@ -1,13 +1,14 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!-- 登录 注册 购物车... -->
-<div class="container-fluid">
-	<div class="col-md-4">
-		<img src="img/logo2.png" />
+<div class="container-fluid" style="height: 80px">
+	<div class="col-md-4" style="position:relative">
+		<img src="jsp/img/logo2.png" style="position: absolute;left: 0;top: -55px" />
 	</div>
 	<div class="col-md-5">
-		<img src="img/header.png" />
+		<img src="jsp/img/header.png" />
 	</div>
 	<div class="col-md-3" style="padding-top:20px">
 		<ol class="list-inline">
@@ -36,10 +37,25 @@
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="product_list.htm">手机数码<span class="sr-only">(current)</span></a></li>
-					<li><a href="#">电脑办公</a></li>
-					<li><a href="#">电脑办公</a></li>
-					<li><a href="#">电脑办公</a></li>
+					<%--TODO 1.1主页显示分类信息--%>
+					<c:forEach items="${sessionScope.categoryMapList}" var="category">
+
+						<%--可能会有个active激活状态--%>
+						<li
+						  <c:if test="${!empty pageContext.request.queryString and pageContext.request.queryString.substring(4) eq category.cid}">
+							  class="active"
+						  </c:if>
+						>
+							<a href="${pageContext.request.contextPath}/productListController?cid=${category.cid}">
+								${category.cname}<span class="sr-only">(current)</span>
+							</a>
+						</li>
+
+					</c:forEach>
+
+
+
+
 				</ul>
 				<form class="navbar-form navbar-right" role="search">
 					<div class="form-group">
@@ -51,3 +67,4 @@
 		</div>
 	</nav>
 </div>
+

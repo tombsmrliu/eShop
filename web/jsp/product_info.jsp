@@ -5,11 +5,11 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>会员登录</title>
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
-<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="jsp/css/bootstrap.min.css" type="text/css" />
+<script src="jsp/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="jsp/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- 引入自定义css文件 style.css -->
-<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="jsp/css/style.css" type="text/css" />
 
 <style>
 body {
@@ -26,7 +26,7 @@ body {
 
 <body>
 	<!-- 引入header.jsp -->
-	<jsp:include page="/header.jsp"></jsp:include>
+	<jsp:include page="header.jsp"></jsp:include>
 
 	<div class="container">
 		<div class="row">
@@ -40,21 +40,21 @@ body {
 				<div class="col-md-6">
 					<img style="opacity: 1; width: 400px; height: 350px;" title=""
 						class="medium"
-						src="image/r___________renleipic_01/bigPic5f3622b8-028a-4e62-a77f-f41a16d715ed.jpg">
+						src="jsp/${product.pimage}">
 				</div>
 
 				<div class="col-md-6">
 					<div>
-						<strong>大冬瓜</strong>
+						<strong>${requestScope.product.pname}</strong>
 					</div>
 					<div
 						style="border-bottom: 1px dotted #dddddd; width: 350px; margin: 10px 0 10px 0;">
-						<div>编号：751</div>
+						<div>编号：${requestScope.product.pid}</div>
 					</div>
 
 					<div style="margin: 10px 0 10px 0;">
-						亿家价: <strong style="color: #ef0101;">￥：4.78元/份</strong> 参 考 价：
-						<del>￥6.00元/份</del>
+						价格: <strong style="color: #ef0101;">￥：${requestScope.product.shop_price}元/个</strong> 参 考 价：
+						<del>￥${requestScope.product.market_price}/个</del>
 					</div>
 
 					<div style="margin: 10px 0 10px 0;">
@@ -74,7 +74,7 @@ body {
 
 						<div style="margin: 20px 0 10px 0;; text-align: center;">
 							<a href="cart.htm"> <input
-								style="background: url('./images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;"
+								style="background: url('jsp/images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;"
 								value="加入购物车" type="button">
 							</a> &nbsp;收藏商品
 						</div>
@@ -90,7 +90,7 @@ body {
 
 				<div>
 					<img
-						src="image/r___________renleipic_01/bigPic139f030b-d68b-41dd-be6d-b94cc568d3c5.jpg">
+						src="jsp/${requestScope.product.pimage}">
 				</div>
 
 				<div
@@ -151,7 +151,7 @@ body {
 
 
 	<!-- 引入footer.jsp -->
-	<jsp:include page="/footer.jsp"></jsp:include>
+	<jsp:include page="footer.jsp"></jsp:include>
 
 </body>
 
