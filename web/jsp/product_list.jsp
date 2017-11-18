@@ -42,15 +42,15 @@
 
 
 
-    <c:forEach items="${requestScope.productList}" var="product">
+    <c:forEach items="${requestScope.pageBean.list}" var="product">
 
         <div class="col-md-2" style="height: 250px">
-            <a href="${pageContext.request.contextPath}/productDetailController?pid=${product.pid}">
+            <a href="${pageContext.request.contextPath}/productDetailController?pid=${product.pid}&cid=${cid}&currentPage=${pageBean.currentPage}">
                 <img src="jsp/${product.pimage}" width="170"
                  height="170" style="display: inline-block;">
             </a>
             <p>
-                <a href="${pageContext.request.contextPath}/productDetailController?pid=${product.pid}" style='color: green'>
+                <a href="${pageContext.request.contextPath}/productDetailController?pid=${product.pid}&cid=${cid}&currentPage=${pageBean.currentPage}" style='color: green'>
                     ${product.pname}
                 </a>
             </p>
@@ -62,19 +62,18 @@
     </c:forEach>
 
     <!--分页 -->
-    <div style="width: 380px; margin: 0 auto; margin-top: 50px;">
+    <div style="width: 380px; height: 575px; margin: 0 auto;margin-top: 50px">
         <ul class="pagination" style="text-align: center; margin-top: 10px;">
             <li class="disabled"><a href="#" aria-label="Previous"><span
                     aria-hidden="true">&laquo;</span></a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">6</a></li>
-            <li><a href="#">7</a></li>
-            <li><a href="#">8</a></li>
-            <li><a href="#">9</a></li>
+            <c:forEach begin="1" end="${pageBean.totalPage}" var="num">
+                  <c:if test="${num == pageBean.currentPage}">
+                      <li class="active"><a href="javascript:void(0);">${num}</a></li>
+                  </c:if>
+                  <c:if test="${num != pageBean.currentPage}">
+                      <li><a href="${pageContext.request.contextPath}/productListController?cid=${cid}&currentPage=${num}">${num}</a></li>
+                  </c:if>
+            </c:forEach>
             <li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
             </a></li>
         </ul>

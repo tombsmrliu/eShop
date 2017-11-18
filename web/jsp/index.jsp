@@ -70,17 +70,15 @@
 				</div>
 				<div class="col-md-10">
 
-					<c:forEach items="${requestScope.hotProductList}" var="hotproduct" end="0">
+
 
 							<div class="col-md-6" style="text-align:center;height:200px;padding:0px;">
-								<a href="${pageContext.request.contextPath}/productDetailController?pid=${hotproduct.pid}">
-									<img src="jsp/${hotproduct.pimage}" width="516px" height="200px" style="display: inline-block;">
+								<a href="#">
+									<img src="jsp/products/hao/middle01.jpg" width="516px" height="200px" style="display: inline-block;">
 								</a>
 							</div>
 
-					</c:forEach>
-
-					<c:forEach items="${requestScope.hotProductList}" begin="2" var="hotproduct">
+					<c:forEach items="${requestScope.hotProductList}" var="hotproduct">
 
 						<div class="col-md-2" style="text-align:center;height:200px;padding:10px 0px;">
 							<a href="${pageContext.request.contextPath}/productDetailController?pid=${hotproduct.pid}">
@@ -110,17 +108,15 @@
 				</div>
 				<div class="col-md-10">
 
-					<c:forEach items="${requestScope.newProductList}" var="newproduct" end="0">
 
 							<div class="col-md-6" style="text-align:center;height:200px;padding:0px;">
-								<a href="${pageContext.request.contextPath}/productDetailController?pid=${newproduct.pid}">
-									<img src="jsp/${newproduct.pimage}" width="516px" height="200px" style="display: inline-block;">
+								<a href="#">
+									<img src="jsp/products/hao/middle01.jpg" width="516px" height="200px" style="display: inline-block;">
 								</a>
 							</div>
 
-					</c:forEach>
 
-					<c:forEach items="${requestScope.newProductList}" var="newProduct" begin="2">
+					<c:forEach items="${requestScope.newProductList}" var="newProduct">
 
 						    <div class="col-md-2" style="text-align:center;height:200px;padding:10px 0px;">
 								<a href="${pageContext.request.contextPath}/productDetailController?pid=${newproduct.pid}">

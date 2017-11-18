@@ -5,9 +5,12 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
 
+
+
+        <!--主页控制器-->
         <servlet>
             <servlet-name>IndexController</servlet-name>
-            <servlet-class>cn.liuxi.web.IndexController</servlet-class>
+            <servlet-class>cn.liuxi.wshopping.web.Servlet.IndexController</servlet-class>
         </servlet>
 
        <servlet-mapping>
@@ -15,9 +18,11 @@
            <url-pattern>/indexController</url-pattern>
        </servlet-mapping>
 
+
+       <!--分类对应商品列表控制器-->
        <servlet>
            <servlet-name>ProductListController</servlet-name>
-           <servlet-class>cn.liuxi.web.ProductListController</servlet-class>
+           <servlet-class>cn.liuxi.wshopping.web.Servlet.ProductListController</servlet-class>
        </servlet>
 
        <servlet-mapping>
@@ -25,15 +30,53 @@
            <url-pattern>/productListController</url-pattern>
        </servlet-mapping>
 
-
+       <!--商品详情控制器-->
        <servlet>
            <servlet-name>ProductDetailController</servlet-name>
-           <servlet-class>cn.liuxi.web.ProductDetailController</servlet-class>
+           <servlet-class>cn.liuxi.wshopping.web.Servlet.ProductDetailController</servlet-class>
        </servlet>
 
       <servlet-mapping>
           <servlet-name>ProductDetailController</servlet-name>
           <url-pattern>/productDetailController</url-pattern>
       </servlet-mapping>
+
+
+      <!--后台管理入口-->
+      <servlet>
+          <servlet-name>AdminEntry</servlet-name>
+          <jsp-file>/jsp/admin/index.jsp</jsp-file>
+      </servlet>
+
+      <servlet-mapping>
+          <servlet-name>AdminEntry</servlet-name>
+          <url-pattern>/admin</url-pattern>
+      </servlet-mapping>
+
+
+      <!--后台登录控制器-->
+      <servlet>
+          <servlet-name>AdminLoginController</servlet-name>
+          <servlet-class>cn.liuxi.wshopping.web.Servlet.AdminLoginController</servlet-class>
+      </servlet>
+
+      <servlet-mapping>
+          <servlet-name>AdminLoginController</servlet-name>
+          <url-pattern>/adminLoginController</url-pattern>
+      </servlet-mapping>
+
+
+
+
+       <!--后台控制器-->
+       <servlet>
+           <servlet-name>CategoryController</servlet-name>
+           <servlet-class>cn.liuxi.wshopping.web.Servlet.CategoryController</servlet-class>
+       </servlet>
+
+       <servlet-mapping>
+           <servlet-name>CategoryController</servlet-name>
+           <url-pattern>/categoryController</url-pattern>
+       </servlet-mapping>
 
 </web-app>

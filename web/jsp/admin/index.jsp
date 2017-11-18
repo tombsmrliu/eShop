@@ -5,8 +5,8 @@
 <head>
 <title>网上商城管理中心</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="${pageContext.request.contextPath }/css/general.css" rel="stylesheet" type="text/css" />
-<link href="${pageContext.request.contextPath }/css/main.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath }/jsp/css/general.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath }/jsp/css/main.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">
 body {
@@ -16,18 +16,18 @@ body {
 </head>
 <body style="background: #278296">
 <center></center>
-<form method="post" action="${pageContext.request.contextPath }/admin/home.jsp" target="_parent" name='theForm' onsubmit="return validate()">
+<form method="post" action="${pageContext.request.contextPath}/adminLoginController" target="_parent" name='theForm' onsubmit="return validate()">
   <table cellspacing="0" cellpadding="0" style="margin-top: 100px" align="center">
   <tr>
     <td style="padding-left: 50px">
       <table>
       <tr>
         <td>管理员姓名：</td>
-        <td><input type="text" name="username" /></td>
+        <td><input type="text" name="username" /><label id="usererr"></label></td>
       </tr>
       <tr>
         <td>管理员密码：</td>
-        <td><input type="password" name="password" /></td>
+        <td><input type="password" name="password" /><label id="passworderr"></label></td>
       </tr>
       <tr><td>&nbsp;</td><td><input type="submit" value="进入管理中心" class="button" /></td></tr>
       </table>
@@ -35,7 +35,11 @@ body {
   </tr>
   </table>
 </form>
+
+<script type="text/javascript" src="jsp/js/jquery.validate.min.js"></script>
+
 <script language="JavaScript">
+
 <!--
   document.forms['theForm'].elements['username'].focus();
   

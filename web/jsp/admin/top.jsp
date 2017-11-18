@@ -24,22 +24,22 @@ TH {
 	COLOR: #000000
 }
 </style>
-		<link href="${pageContext.request.contextPath}/css/Style1.css" rel="stylesheet" type="text/css">
+		<link href="${pageContext.request.contextPath}/jsp/css/Style1.css" rel="stylesheet" type="text/css">
 	</HEAD>
 	<body>
 		<table width="100%" height="70%"  border="0" cellspacing="0" cellpadding="0">
 			<tr>
 				<td>
-					<img width="100%" src="${pageContext.request.contextPath}/images/top_01.jpg">
+					<img width="100%" src="${pageContext.request.contextPath}/jsp/images/top_01.jpg">
 				</td>
 
-				<td width="100%" background="${pageContext.request.contextPath}/images/top_100.jpg">
+				<td width="100%" background="${pageContext.request.contextPath}/jsp/images/top_100.jpg">
 				</td>
 			</tr>
 		</table>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td height="30" valign="bottom" background="${pageContext.request.contextPath}/images/mis_01.jpg">
+				<td height="30" valign="bottom" background="${pageContext.request.contextPath}/jsp/images/mis_01.jpg">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td width="85%" align="left">
@@ -49,19 +49,19 @@ TH {
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
 										<td width="16"
-											background="${pageContext.request.contextPath}/images/mis_05b.jpg">
+											background="${pageContext.request.contextPath}/jsp/images/mis_05b.jpg">
 											<img
-												src="${pageContext.request.contextPath}/images/mis_05a.jpg"
+												src="${pageContext.request.contextPath}/jsp/images/mis_05a.jpg"
 												width="6" height="18">
 										</td>
 										<td width="155" valign="bottom"
-											background="${pageContext.request.contextPath}/images/mis_05b.jpg">
+											background="${pageContext.request.contextPath}/jsp/images/mis_05b.jpg">
 											用户名：
 											<font color="blue">zhangsan</font>
 										</td>
 										<td width="10" align="right"
-											background="${pageContext.request.contextPath}/images/mis_05b.jpg">
-											<img src="${pageContext.request.contextPath}/images/mis_05c.jpg" width="6" height="18">
+											background="${pageContext.request.contextPath}/jsp/images/mis_05b.jpg">
+											<img src="${pageContext.request.contextPath}/jsp/images/mis_05c.jpg" width="6" height="18">
 										</td>
 									</tr>
 								</table>

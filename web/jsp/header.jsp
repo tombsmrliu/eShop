@@ -36,22 +36,22 @@
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<%--TODO 1.1主页显示分类信息--%>
-					<c:forEach items="${sessionScope.categoryMapList}" var="category">
+				<ul class="nav navbar-nav" id="categoryUl">
 
-						<%--可能会有个active激活状态--%>
-						<li
+					<%--<c:forEach items="${sessionScope.categoryMapList}" var="category">--%>
+
+						<%--&lt;%&ndash;可能会有个active激活状态&ndash;%&gt;--%>
+						<%--<li--%>
 						  <c:if test="${!empty pageContext.request.queryString and pageContext.request.queryString.substring(4) eq category.cid}">
 							  class="active"
 						  </c:if>
-						>
-							<a href="${pageContext.request.contextPath}/productListController?cid=${category.cid}">
-								${category.cname}<span class="sr-only">(current)</span>
-							</a>
-						</li>
+						<%-->--%>
+							<%--<a href="${pageContext.request.contextPath}/productListController?cid=${category.cid}">--%>
+								<%--${category.cname}<span class="sr-only">(current)</span>--%>
+							<%--</a>--%>
+						<%--</li>--%>
 
-					</c:forEach>
+					<%--</c:forEach>--%>
 
 
 
@@ -67,4 +67,29 @@
 		</div>
 	</nav>
 </div>
+
+
+
+<script type="text/javascript">
+
+	//header.jsp加载完成后去服务端获取所有category数据
+	$(function () {
+		var content = "";
+
+		$.post(
+            "${pageContext.request.contextPath}/categoryController",
+			function (res) {
+                 for (var i = 0 ; i < res.length ; i++){
+					 content += "<li><a href='${pageContext.request.contextPath}/productListController?cid="+res[i].cid+"'>"+res[i].cname+"</a></li>";
+				 }
+
+                $("#categoryUl").html(content);
+            },
+			"json"
+		);
+
+    })
+
+
+</script>
 

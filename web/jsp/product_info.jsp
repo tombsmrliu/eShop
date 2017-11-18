@@ -79,6 +79,10 @@ body {
 							</a> &nbsp;收藏商品
 						</div>
 					</div>
+
+					<div>
+						<a href="${pageContext.request.contextPath}/productListController?cid=${cid}&currentPage=${currentPage}">返回上一页</a>
+					</div>
 				</div>
 			</div>
 			<div class="clear"></div>
