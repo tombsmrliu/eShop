@@ -12,10 +12,10 @@
 	</div>
 	<div class="col-md-3" style="padding-top:20px">
 		<ol class="list-inline">
-			<li><a href="login.jsp">登录</a></li>
-			<li><a href="register.jsp">注册</a></li>
-			<li><a href="cart.jsp">购物车</a></li>
-			<li><a href="order_list.jsp">我的订单</a></li>
+			<li><a href="jsp/login.jsp">登录</a></li>
+			<li><a href="jsp/register.jsp">注册</a></li>
+			<li><a href="jsp/cart.jsp">购物车</a></li>
+			<li><a href="jsp/order_list.jsp">我的订单</a></li>
 		</ol>
 	</div>
 </div>
@@ -38,23 +38,9 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav" id="categoryUl">
 
-					<%--<c:forEach items="${sessionScope.categoryMapList}" var="category">--%>
-
-						<%--&lt;%&ndash;可能会有个active激活状态&ndash;%&gt;--%>
-						<%--<li--%>
 						  <c:if test="${!empty pageContext.request.queryString and pageContext.request.queryString.substring(4) eq category.cid}">
 							  class="active"
 						  </c:if>
-						<%-->--%>
-							<%--<a href="${pageContext.request.contextPath}/productListController?cid=${category.cid}">--%>
-								<%--${category.cname}<span class="sr-only">(current)</span>--%>
-							<%--</a>--%>
-						<%--</li>--%>
-
-					<%--</c:forEach>--%>
-
-
-
 
 				</ul>
 				<form class="navbar-form navbar-right" role="search">
@@ -77,10 +63,10 @@
 		var content = "";
 
 		$.post(
-            "${pageContext.request.contextPath}/categoryController",
+            "${pageContext.request.contextPath}/productController?method=categoryList",
 			function (res) {
                  for (var i = 0 ; i < res.length ; i++){
-					 content += "<li><a href='${pageContext.request.contextPath}/productListController?cid="+res[i].cid+"'>"+res[i].cname+"</a></li>";
+					 content += "<li><a href='${pageContext.request.contextPath}/productController?method=productList&cid="+res[i].cid+"'>"+res[i].cname+"</a></li>";
 				 }
 
                 $("#categoryUl").html(content);

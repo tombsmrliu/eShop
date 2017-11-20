@@ -7,39 +7,19 @@
 
 
 
-        <!--主页控制器-->
+        <!--商品模块控制器-->
         <servlet>
-            <servlet-name>IndexController</servlet-name>
-            <servlet-class>cn.liuxi.wshopping.web.Servlet.IndexController</servlet-class>
+            <servlet-name>ProductController</servlet-name>
+            <servlet-class>cn.liuxi.wshopping.web.Servlet.ProductController</servlet-class>
         </servlet>
 
        <servlet-mapping>
-           <servlet-name>IndexController</servlet-name>
-           <url-pattern>/indexController</url-pattern>
+           <servlet-name>ProductController</servlet-name>
+           <url-pattern>/productController</url-pattern>
        </servlet-mapping>
 
 
-       <!--分类对应商品列表控制器-->
-       <servlet>
-           <servlet-name>ProductListController</servlet-name>
-           <servlet-class>cn.liuxi.wshopping.web.Servlet.ProductListController</servlet-class>
-       </servlet>
 
-       <servlet-mapping>
-           <servlet-name>ProductListController</servlet-name>
-           <url-pattern>/productListController</url-pattern>
-       </servlet-mapping>
-
-       <!--商品详情控制器-->
-       <servlet>
-           <servlet-name>ProductDetailController</servlet-name>
-           <servlet-class>cn.liuxi.wshopping.web.Servlet.ProductDetailController</servlet-class>
-       </servlet>
-
-      <servlet-mapping>
-          <servlet-name>ProductDetailController</servlet-name>
-          <url-pattern>/productDetailController</url-pattern>
-      </servlet-mapping>
 
 
       <!--后台管理入口-->
@@ -66,17 +46,5 @@
       </servlet-mapping>
 
 
-
-
-       <!--后台控制器-->
-       <servlet>
-           <servlet-name>CategoryController</servlet-name>
-           <servlet-class>cn.liuxi.wshopping.web.Servlet.CategoryController</servlet-class>
-       </servlet>
-
-       <servlet-mapping>
-           <servlet-name>CategoryController</servlet-name>
-           <url-pattern>/categoryController</url-pattern>
-       </servlet-mapping>
 
 </web-app>

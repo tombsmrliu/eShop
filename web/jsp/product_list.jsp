@@ -45,12 +45,12 @@
     <c:forEach items="${requestScope.pageBean.list}" var="product">
 
         <div class="col-md-2" style="height: 250px">
-            <a href="${pageContext.request.contextPath}/productDetailController?pid=${product.pid}&cid=${cid}&currentPage=${pageBean.currentPage}">
+            <a href="${pageContext.request.contextPath}/productController?method=productDetail&pid=${product.pid}&cid=${cid}&currentPage=${pageBean.currentPage}">
                 <img src="jsp/${product.pimage}" width="170"
                  height="170" style="display: inline-block;">
             </a>
             <p>
-                <a href="${pageContext.request.contextPath}/productDetailController?pid=${product.pid}&cid=${cid}&currentPage=${pageBean.currentPage}" style='color: green'>
+                <a href="${pageContext.request.contextPath}/productController?method=productDetail&pid=${product.pid}&cid=${cid}&currentPage=${pageBean.currentPage}" style='color: green'>
                     ${product.pname}
                 </a>
             </p>
@@ -71,7 +71,7 @@
                       <li class="active"><a href="javascript:void(0);">${num}</a></li>
                   </c:if>
                   <c:if test="${num != pageBean.currentPage}">
-                      <li><a href="${pageContext.request.contextPath}/productListController?cid=${cid}&currentPage=${num}">${num}</a></li>
+                      <li><a href="${pageContext.request.contextPath}/productController?method=productDetail&cid=${cid}&currentPage=${num}">${num}</a></li>
                   </c:if>
             </c:forEach>
             <li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>

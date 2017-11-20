@@ -22,6 +22,27 @@ body {
 	height: 300px;
 }
 </style>
+
+
+	<script type="text/javascript">
+
+
+
+		    function addCart() {
+
+		        //获取购物数量
+		        var buyNum = $("#quantity").val();
+
+				window.location.href = "${pageContext.request.contextPath}/productController?method=addProductToCart&pid=${requestScope.product.pid}&buyNum="+buyNum;
+
+            }
+
+
+
+
+	</script>
+
+
 </head>
 
 <body>
@@ -73,15 +94,14 @@ body {
 						</div>
 
 						<div style="margin: 20px 0 10px 0;; text-align: center;">
-							<a href="cart.htm"> <input
-								style="background: url('jsp/images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;"
-								value="加入购物车" type="button">
+							<a href="javascript:void(0);" onclick="addCart()">
+								<input style="background: url('jsp/images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;" value="加入购物车" type="button">
 							</a> &nbsp;收藏商品
 						</div>
 					</div>
 
 					<div>
-						<a href="${pageContext.request.contextPath}/productListController?cid=${cid}&currentPage=${currentPage}">返回上一页</a>
+						<a href="${pageContext.request.contextPath}/productController?method=productList&cid=${cid}&currentPage=${currentPage}">返回上一页</a>
 					</div>
 				</div>
 			</div>

@@ -13,7 +13,7 @@
 <body>
 
 
-  <jsp:forward page="/indexController"></jsp:forward>
+  <jsp:forward page="/productController?method=index"></jsp:forward>
 
 </body>
 </html>

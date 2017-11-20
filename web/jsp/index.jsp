@@ -81,10 +81,10 @@
 					<c:forEach items="${requestScope.hotProductList}" var="hotproduct">
 
 						<div class="col-md-2" style="text-align:center;height:200px;padding:10px 0px;">
-							<a href="${pageContext.request.contextPath}/productDetailController?pid=${hotproduct.pid}">
+							<a href="${pageContext.request.contextPath}/productController?method=productDetail&pid=${hotproduct.pid}">
 								<img src="jsp/${hotproduct.pimage}" width="130" height="130" style="display: inline-block;">
 							</a>
-							<p><a href="${pageContext.request.contextPath}/productDetailController?pid=${hotproduct.pid}" style='color:#666'>${hotproduct.pname}</a></p>
+							<p><a href="${pageContext.request.contextPath}/productController?method=productDetail&pid=${hotproduct.pid}" style='color:#666'>${hotproduct.pname}</a></p>
 							<p><font color="#E4393C" style="font-size:16px">&yen;${hotproduct.shop_price}</font></p>
 						</div>
 
@@ -119,10 +119,10 @@
 					<c:forEach items="${requestScope.newProductList}" var="newProduct">
 
 						    <div class="col-md-2" style="text-align:center;height:200px;padding:10px 0px;">
-								<a href="${pageContext.request.contextPath}/productDetailController?pid=${newproduct.pid}">
+								<a href="${pageContext.request.contextPath}/productController?method=productDetail&pid=${newproduct.pid}">
 									<img src="jsp/${newProduct.pimage}" width="130" height="130" style="display: inline-block;">
 								</a>
-								<p><a href="${pageContext.request.contextPath}/productDetailController?pid=${newproduct.pid}" style='color:#666'>${newProduct.pname}</a></p>
+								<p><a href="${pageContext.request.contextPath}/productController?method=productDetail&pid=${newproduct.pid}" style='color:#666'>${newProduct.pname}</a></p>
 								<p><font color="#E4393C" style="font-size:16px">&yen;${newProduct.shop_price}</font></p>
 							</div>
 
