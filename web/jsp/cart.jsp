@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>黑马商城购物车</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-		<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+		<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<script src="js/bootstrap.min.js" type="text/javascript"></script>
 		<!-- 引入自定义css文件 style.css -->
 		<link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -58,7 +58,7 @@
 			<div class="row">
 
 				<div style="margin:0 auto; margin-top:10px;width:950px;">
-					<strong style="font-size:16px;margin:5px 0;">订单详情</strong>
+					<strong style="font-size:16px;margin:5px 0;">购物车详情</strong>
 					<table class="table table-bordered">
 						<tbody>
 							<tr class="warning">
@@ -109,8 +109,8 @@
 				</div>
 				<div style="text-align:right;margin-top:10px;margin-bottom:10px;">
 					<a href="javascript:void(0);" id="clear" onclick="clearCart()" class="clear">清空购物车</a>
-					<a href="order_info.htm">
-						<input type="submit" width="100" value="提交订单" name="submit" border="0" style="background: url('./images/register.gif') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+					<a href="${pageContext.request.contextPath}/productController?method=submitOrder">
+						<input type="button" width="100" value="结算" border="0" style="background: url('./images/register.gif') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 						height:35px;width:100px;color:white;">
 					</a>
 				</div>

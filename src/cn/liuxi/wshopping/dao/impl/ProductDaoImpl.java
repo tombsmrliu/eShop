@@ -1,6 +1,8 @@
 package cn.liuxi.wshopping.dao.impl;
 
 import cn.liuxi.wshopping.dao.IProductDao;
+import cn.liuxi.wshopping.entity.Order;
+import cn.liuxi.wshopping.entity.OrderItem;
 import cn.liuxi.wshopping.entity.Product;
 import cn.liuxi.wshopping.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
@@ -9,6 +11,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.junit.Test;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -43,6 +46,54 @@ public class ProductDaoImpl implements IProductDao {
         Long query =(Long) queryRunner.query(sql,new ScalarHandler(),id);
 
         return query.intValue();
+    }
+
+    //添加订单
+    @Override
+    public void addOrder(Order order) throws SQLException {
+
+        QueryRunner runner  = new QueryRunner();
+
+        String sql = "INSERT INTO orders VALUES (?,?,?,?,?,?,?,?)";
+
+        Connection conn = DataSourceUtils.getConnection();
+
+        runner.update(conn,sql,order.getOid(),order.getOrdertime(),
+                order.getTotal(),order.getStatus(), order.getAddr(),
+                order.getFullname(),order.getTelephone(),order.getUser().getUid());
+    }
+
+    //添加订单项
+    @Override
+    public void addOrderItems(Order order) throws SQLException {
+
+        QueryRunner runner  = new QueryRunner();
+
+        String sql = "INSERT INTO orderitem VALUES (?,?,?,?,?)";
+
+        Connection conn = DataSourceUtils.getConnection();
+
+        List<OrderItem> orderItems = order.getOrderItems();
+
+        for (OrderItem item : orderItems) {
+
+            runner.update(conn,sql,item.getItemid(),
+                    item.getCount(),item.getSubtotal(),
+                    item.getProduct().getPid(),
+                    item.getOrder().getOid());
+
+        }
+
+    }
+
+    //更新收收货人信息
+    @Override
+    public void updateOrderAddr(Order order) throws SQLException {
+
+        String sql = "UPDATE orders SET address=?,fullname=?,telephone=? WHERE oid=?";
+
+        queryRunner.update(sql,order.getAddr(),order.getFullname(),order.getTelephone(),order.getOid());
+
     }
 
     //根据pid查询产品详情

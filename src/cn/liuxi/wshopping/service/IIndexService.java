@@ -8,9 +8,6 @@ import java.util.Map;
 
 public interface IIndexService {
 
-    //获取所有分类
-    abstract public List<Map<String,Object>> queryCategroyAll() throws SQLException;
-
     //获取热门产品
     abstract public List<Product> queryHotProductAll() throws SQLException;
 

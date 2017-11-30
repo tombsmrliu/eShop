@@ -23,4 +23,28 @@ public class UserDaoImpl implements IUserDao {
 
         return user;
     }
+
+    @Override
+    public int save(User user) throws SQLException {
+
+        //保存用户sql语句
+        String sql = "INSERT INTO user(uid, username, password, fullname, email, birthday, gender, state, code) VALUES (?,?,?,?,?,?,?,?,?)";
+
+        int update = queryRunner.update(sql, user.getUid(),user.getUsername(),
+                user.getPassword(),user.getFullname(),user.getEmail(),
+                user.getBirthday(),user.getGender(), user.getState(), user.getCode()
+               );
+
+
+        System.out.println(update);
+
+
+        return update;
+    }
+
+    @Override
+    public void active(String activeCode) throws SQLException {
+        String sql = "update user set state=? where code=?";
+        queryRunner.update(sql, 1,activeCode);
+    }
 }

@@ -1,37 +1,42 @@
 package cn.liuxi.wshopping.web.Servlet;
 
-import cn.liuxi.wshopping.entity.Cart;
-import cn.liuxi.wshopping.entity.CartItem;
-import cn.liuxi.wshopping.entity.PageBean;
-import cn.liuxi.wshopping.entity.Product;
+import cn.liuxi.wshopping.entity.*;
 import cn.liuxi.wshopping.service.ICategoryService;
+import cn.liuxi.wshopping.service.IIndexService;
+import cn.liuxi.wshopping.service.IProductService;
 import cn.liuxi.wshopping.service.impl.CategoryServiceImpl;
 import cn.liuxi.wshopping.service.impl.IndexServiceImpl;
 import cn.liuxi.wshopping.service.impl.ProductServiceImpl;
 import cn.liuxi.wshopping.utils.JedisPoolUtils;
+import cn.liuxi.wshopping.utils.PaymentUtil;
+import cn.liuxi.wshopping.utils.UUIDUtils;
 import cn.liuxi.wshopping.web.base.BaseServlet;
 import com.google.gson.Gson;
+import org.apache.commons.beanutils.BeanUtils;
 import redis.clients.jedis.Jedis;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ProductController extends BaseServlet{
 
     private ICategoryService categoryService = new CategoryServiceImpl();
 
-    private IndexServiceImpl indexServiceImpl = new IndexServiceImpl();
+    private IIndexService indexService = new IndexServiceImpl();
 
-    private ProductServiceImpl productServiceImpl = new ProductServiceImpl();
+    private IProductService productService = new ProductServiceImpl();
 
+
+    public String orderUI(HttpServletRequest request , HttpServletResponse response)throws Exception {
+
+        return "/jsp/order_info.jsp";
+    }
 
 
     //商品分类显示功能
@@ -66,14 +71,15 @@ public class ProductController extends BaseServlet{
     //主页的逻辑
     public String index(HttpServletRequest request,HttpServletResponse response) {
 
+
         //TODO 1获取主页数据
         try {
 
             //TODO 1.1①获取所有热门商品
-            List<Product> hotProductAll = indexServiceImpl.queryHotProductAll();
+            List<Product> hotProductAll = indexService.queryHotProductAll();
 
             //TODO 1.1②获取所有最新商品
-            List<Product> newProductAll = indexServiceImpl.queryNewProductAll();
+            List<Product> newProductAll = indexService.queryNewProductAll();
 
             //TODO 1.2向前端传数据
             request.setAttribute("hotProductList",hotProductAll);
@@ -106,7 +112,7 @@ public class ProductController extends BaseServlet{
 
         try {
             //获取产品详情
-            product = productServiceImpl.queryProductByPid(pid);
+            product = productService.queryProductByPid(pid);
 
 
         } catch (SQLException e) {
@@ -176,7 +182,7 @@ public class ProductController extends BaseServlet{
 
 
     //显示商品列表功能
-    public String productList(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+    public String productList(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
 
 
         String cid = request.getParameter("cid");
@@ -187,7 +193,7 @@ public class ProductController extends BaseServlet{
         int currentPage = Integer.parseInt(currentPages);
         int currentCount = 12;
 
-        PageBean pageBean = productServiceImpl.queryProductByCId(cid,currentPage,currentCount);
+        PageBean pageBean = productService.queryProductByCId(cid,currentPage,currentCount);
 
 
         request.setAttribute("pageBean",pageBean);
@@ -216,7 +222,7 @@ public class ProductController extends BaseServlet{
 
         try {
 
-            product = productServiceImpl.queryProductByPid(pid);
+            product = productService.queryProductByPid(pid);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -294,6 +300,7 @@ public class ProductController extends BaseServlet{
     //从购物车中移除商品
     public String deleteProductFromCart(HttpServletRequest request , HttpServletResponse response)throws ServletException,IOException {
 
+
         HttpSession session = request.getSession();
 
         //获取pid
@@ -318,4 +325,164 @@ public class ProductController extends BaseServlet{
 
         return null;
     }
+
+
+    //提交订单
+    public String submitOrder(HttpServletRequest request , HttpServletResponse response)throws Exception {
+
+         HttpSession session = request.getSession();
+
+         //判断用户是否登录，如果未登录则跳转登录页面
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+
+            //没有登录
+            response.sendRedirect(request.getContextPath()+"/userController?method=loginUI");
+
+            return null;
+
+        }
+
+        //封装一个Order对象传递给service层
+        Order order = new Order();
+
+        //1订单id
+        String oid = UUIDUtils.getUUID();
+        order.setOid(oid);
+
+        //2下单时间
+        order.setOrdertime(new Date());
+
+        //获得购物车
+        Cart cart = (Cart) session.getAttribute("cart");
+
+        //3该订单的总金额
+        double total = cart.getTotal();
+        order.setTotal(total);
+
+        //4订单状态
+        order.setStatus(0);
+
+        //5收获地址
+        order.setAddr(null);
+
+        //6收货人
+        order.setFullname(null);
+
+        //7收货人电话
+        order.setTelephone(null);
+
+        //8订单属于哪个用户
+        order.setUser(user);
+
+        //9封装订单中的订单项
+        Map<String, CartItem> cartItems = cart.getCartItems();
+        for (Map.Entry<String,CartItem> entry:cartItems.entrySet() ) {
+
+                 //获取当前购物车项
+                 CartItem cartItem = entry.getValue();
+                 //创建新的订单项
+                 OrderItem orderItem = new OrderItem();
+
+                 //1订单项的id
+                 orderItem.setItemid(UUIDUtils.getUUID());
+                 //2订单项内商品的数量
+                 orderItem.setCount(cartItem.getBuyNum());
+                 //3订单项的小计
+                 orderItem.setSubtotal(cartItem.getSubtotal());
+                 //4订单内的商品
+                 orderItem.setProduct(cartItem.getProduct());
+                 //5该订单项属于哪个订单
+                 orderItem.setOrder(order);
+
+                 //将该订单项添加到订单项集合中
+                 order.getOrderItems().add(orderItem);
+        }
+
+        //order对象封装完毕 传递到service层
+        productService.submitOrder(order);
+
+        //将订单信息存储到session域对象中
+        session.setAttribute("order",order);
+
+        //页面跳转至订单页
+        response.sendRedirect(request.getContextPath()+"/productController?method=orderUI");
+
+        return null;
+
+    }
+
+
+
+    //确认订单 更新收货人信息  在线支付
+    public String confirmOrder(HttpServletRequest request , HttpServletResponse response)throws Exception {
+
+        //1更新收货人信息
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Order order = new Order();
+
+        try {
+            BeanUtils.populate(order,parameterMap);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        productService.updateOrderAddr(order);
+
+        //2在线支付
+        //只接入一个接口，这个接口已经集成所有的银行接口了  ，这个接口是第三方支付平台提供的
+        //接入的是易宝支付
+        // 获得 支付必须基本数据
+        String orderid = request.getParameter("oid");
+        //String money = order.getTotal()+"";//支付金额
+        String money = "0.01";//支付金额
+        // 银行
+        String pd_FrpId = request.getParameter("pd_FrpId");
+
+        // 发给支付公司需要哪些数据
+        String p0_Cmd = "Buy";
+        String p1_MerId = ResourceBundle.getBundle("merchantInfo").getString("p1_MerId");
+        String p2_Order = orderid;
+        String p3_Amt = money;
+        String p4_Cur = "CNY";
+        String p5_Pid = "";
+        String p6_Pcat = "";
+        String p7_Pdesc = "";
+        // 支付成功回调地址 ---- 第三方支付公司会访问、用户访问
+        // 第三方支付可以访问网址
+        String p8_Url = ResourceBundle.getBundle("merchantInfo").getString("callback");
+        String p9_SAF = "";
+        String pa_MP = "";
+        String pr_NeedResponse = "1";
+        // 加密hmac 需要密钥
+        String keyValue = ResourceBundle.getBundle("merchantInfo").getString(
+                "keyValue");
+        String hmac = PaymentUtil.buildHmac(p0_Cmd, p1_MerId, p2_Order, p3_Amt,
+                p4_Cur, p5_Pid, p6_Pcat, p7_Pdesc, p8_Url, p9_SAF, pa_MP,
+                pd_FrpId, pr_NeedResponse, keyValue);
+
+
+        String url = "https://www.yeepay.com/app-merchant-proxy/node?pd_FrpId="+pd_FrpId+
+                "&p0_Cmd="+p0_Cmd+
+                "&p1_MerId="+p1_MerId+
+                "&p2_Order="+p2_Order+
+                "&p3_Amt="+p3_Amt+
+                "&p4_Cur="+p4_Cur+
+                "&p5_Pid="+p5_Pid+
+                "&p6_Pcat="+p6_Pcat+
+                "&p7_Pdesc="+p7_Pdesc+
+                "&p8_Url="+p8_Url+
+                "&p9_SAF="+p9_SAF+
+                "&pa_MP="+pa_MP+
+                "&pr_NeedResponse="+pr_NeedResponse+
+                "&hmac="+hmac;
+
+        //重定向到第三方支付平台
+        response.sendRedirect(url);
+
+
+        return null;
+
+    }
+
 }

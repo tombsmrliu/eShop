@@ -20,5 +20,36 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    @Override
+    public boolean register(User user){
+        int row = 0;
+
+        try {
+
+            row = userDao.save(user);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return row > 0 ? true:false;
+    }
+
+
+    //用户激活逻辑
+    @Override
+    public void active(String activeCode){
+
+        try {
+            userDao.active(activeCode);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
 
 }

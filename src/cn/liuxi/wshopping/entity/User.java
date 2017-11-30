@@ -1,15 +1,18 @@
 package cn.liuxi.wshopping.entity;
 
 public class User {
+
     private String uid;
     private String username;
     private String password;
-    private String name;
+    private String fullname;
     private String email;
     private String telephone;
-    private String sex;
+    private String birthday;
+    private String gender;
     private int state;
     private String code;
+
 
     public String getUid() {
         return uid;
@@ -35,12 +38,12 @@ public class User {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getEmail() {
@@ -59,13 +62,20 @@ public class User {
         this.telephone = telephone;
     }
 
-
-    public String getSex() {
-        return sex;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public int getState() {
@@ -82,5 +92,21 @@ public class User {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", email='" + email + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", gender='" + gender + '\'' +
+                ", state=" + state +
+                ", code='" + code + '\'' +
+                '}';
     }
 }

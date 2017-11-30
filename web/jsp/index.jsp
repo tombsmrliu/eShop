@@ -5,9 +5,9 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>黑马商城首页</title>
+		<title>w-shopping商城首页</title>
 		<link rel="stylesheet" href="jsp/css/bootstrap.min.css" type="text/css" />
-		<script src="jsp/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+		<script src="jsp/js/jquery-3.2.1.min.js" type="text/javascript"></script>
 		<script src="jsp/js/bootstrap.min.js" type="text/javascript"></script>
 	</head>
 

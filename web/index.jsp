@@ -12,8 +12,10 @@
 </head>
 <body>
 
+    <%
+        response.sendRedirect(request.getContextPath()+"/productController?method=index");
+    %>
 
-  <jsp:forward page="/productController?method=index"></jsp:forward>
 
 </body>
 </html>

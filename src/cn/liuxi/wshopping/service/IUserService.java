@@ -7,7 +7,12 @@ import java.sql.SQLException;
 public interface IUserService {
 
 
-    //管理员登录业务逻辑
+    //根据用户名查找用户
     abstract public User queryUserByUsername(String username) throws SQLException;
+
+    abstract public boolean register(User user) throws SQLException;
+
+    //用户激活
+    abstract public void active(String activeCode);
 
 }

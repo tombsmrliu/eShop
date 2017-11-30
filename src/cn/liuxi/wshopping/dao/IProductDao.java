@@ -1,5 +1,6 @@
 package cn.liuxi.wshopping.dao;
 
+import cn.liuxi.wshopping.entity.Order;
 import cn.liuxi.wshopping.entity.Product;
 
 import java.sql.SQLException;
@@ -26,4 +27,11 @@ public interface IProductDao {
     //获取总条数
     abstract public int getCount(String cid) throws SQLException;
 
+    //添加订单
+    abstract void addOrder(Order order) throws SQLException;
+
+    //添加订单项
+    abstract void addOrderItems(Order order) throws SQLException;
+
+    abstract void updateOrderAddr(Order order) throws SQLException;
 }

@@ -1,50 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-           version="2.5">
+         version="2.5">
 
 
+    <!--解决乱码问题的过滤器-->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>cn.liuxi.wshopping.web.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-        <!--商品模块控制器-->
-        <servlet>
-            <servlet-name>ProductController</servlet-name>
-            <servlet-class>cn.liuxi.wshopping.web.Servlet.ProductController</servlet-class>
-        </servlet>
+    <!--自动登录过滤器-->
+    <filter>
+        <filter-name>AutoLoginFilter</filter-name>
+        <filter-class>cn.liuxi.wshopping.web.filter.AutoLoginFilter</filter-class>
+    </filter>
 
-       <servlet-mapping>
-           <servlet-name>ProductController</servlet-name>
-           <url-pattern>/productController</url-pattern>
-       </servlet-mapping>
-
-
-
-
-
-      <!--后台管理入口-->
-      <servlet>
-          <servlet-name>AdminEntry</servlet-name>
-          <jsp-file>/jsp/admin/index.jsp</jsp-file>
-      </servlet>
-
-      <servlet-mapping>
-          <servlet-name>AdminEntry</servlet-name>
-          <url-pattern>/admin</url-pattern>
-      </servlet-mapping>
+    <filter-mapping>
+        <filter-name>AutoLoginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 
-      <!--后台登录控制器-->
-      <servlet>
-          <servlet-name>AdminLoginController</servlet-name>
-          <servlet-class>cn.liuxi.wshopping.web.Servlet.AdminLoginController</servlet-class>
-      </servlet>
+    <!--前台商品模块控制器-->
+    <servlet>
+        <servlet-name>ProductController</servlet-name>
+        <servlet-class>cn.liuxi.wshopping.web.Servlet.ProductController</servlet-class>
+    </servlet>
 
-      <servlet-mapping>
-          <servlet-name>AdminLoginController</servlet-name>
-          <url-pattern>/adminLoginController</url-pattern>
-      </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductController</servlet-name>
+        <url-pattern>/productController</url-pattern>
+    </servlet-mapping>
 
+    <!--前台用户模块控制器-->
+    <servlet>
+        <servlet-name>UserController</servlet-name>
+        <servlet-class>cn.liuxi.wshopping.web.Servlet.UserController</servlet-class>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>UserController</servlet-name>
+        <url-pattern>/userController</url-pattern>
+    </servlet-mapping>
+
+
+    <!--后台管理入口-->
+    <servlet>
+        <servlet-name>AdminEntry</servlet-name>
+        <jsp-file>/jsp/admin/index.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AdminEntry</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
+
+    <!--后台登录控制器-->
+    <servlet>
+        <servlet-name>AdminLoginController</servlet-name>
+        <servlet-class>cn.liuxi.wshopping.web.Servlet.AdminLoginController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AdminLoginController</servlet-name>
+        <url-pattern>/adminLoginController</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>
