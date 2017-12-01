@@ -11,6 +11,7 @@ import cn.liuxi.wshopping.utils.DataSourceUtils;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class ProductServiceImpl implements IProductService {
 
@@ -64,6 +65,7 @@ public class ProductServiceImpl implements IProductService {
         return pageBean;
     }
 
+    //根据pid查询所有商品
     @Override
     public Product queryProductByPid(String pid) throws SQLException {
 
@@ -72,6 +74,7 @@ public class ProductServiceImpl implements IProductService {
         return product;
     }
 
+    //提交订单
     @Override
     public void submitOrder(Order order) {
 
@@ -103,6 +106,7 @@ public class ProductServiceImpl implements IProductService {
 
     }
 
+    //修改订单收货人信息
     @Override
     public void updateOrderAddr(Order order) {
 
@@ -114,6 +118,36 @@ public class ProductServiceImpl implements IProductService {
             e.printStackTrace();
         }
 
+    }
+
+    //查询该用户的所有订单
+    @Override
+    public List<Order> queryAllOrders(String uid){
+
+
+        List<Order> orderList = null;
+        try {
+            orderList = productDao.queryAllOrdersByUid(uid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return orderList;
+    }
+
+    @Override
+    public List<Map<String, Object>> queryAllOrderItemByOid(String oid) {
+
+        List<Map<String, Object>> mapList = null;
+
+        try {
+            mapList = productDao.queryAllOrderItemByOid(oid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return mapList;
     }
 
 }

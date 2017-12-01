@@ -8,12 +8,14 @@ import cn.liuxi.wshopping.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDaoImpl implements IProductDao {
 
@@ -94,6 +96,28 @@ public class ProductDaoImpl implements IProductDao {
 
         queryRunner.update(sql,order.getAddr(),order.getFullname(),order.getTelephone(),order.getOid());
 
+    }
+
+    //根据uid查询所有订单
+    @Override
+    public List<Order> queryAllOrdersByUid(String uid) throws SQLException {
+
+        String sql = "SELECT * FROM orders WHERE uid = ?";
+
+        List<Order> orderList = queryRunner.query(sql, new BeanListHandler<Order>(Order.class), uid);
+
+        return orderList;
+    }
+
+    //根据oid查询所有订单项
+    @Override
+    public List<Map<String, Object>> queryAllOrderItemByOid(String oid) throws SQLException {
+
+        String sql = "SELECT i.count,i.subtotal,p.pimage,p.pname,p.shop_price FROM orderitem i,product p,orders o WHERE i.pid =p.pid and i.oid = ?";
+
+        List<Map<String, Object>> mapList = queryRunner.query(sql, new MapListHandler(), oid);
+
+        return mapList;
     }
 
     //根据pid查询产品详情

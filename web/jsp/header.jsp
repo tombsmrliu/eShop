@@ -24,7 +24,7 @@
 			</c:if>
 
 			<li><a href="jsp/cart.jsp">购物车</a></li>
-			<li><a href="jsp/order_list.jsp">我的订单</a></li>
+			<li><a href="${pageContext.request.contextPath }/productController?method=myOrders">我的订单</a></li>
 		</ol>
 	</div>
 </div>

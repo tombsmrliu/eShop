@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Order {
 
-     private String oid; // 该订单的订单号
+    private String oid; // 该订单的订单号
      private Date ordertime; //下单时间
      private double total; // 订单的总金额
      private int status; //订单的支付状态 1 代表已支付 0代表未付款
@@ -93,5 +93,22 @@ public class Order {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
+
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "oid='" + oid + '\'' +
+                ", ordertime=" + ordertime +
+                ", total=" + total +
+                ", status=" + status +
+                ", addr='" + addr + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", user=" + user +
+                ", orderItems=" + orderItems +
+                '}';
+    }
+
 
 }
