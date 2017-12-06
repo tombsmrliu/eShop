@@ -212,10 +212,6 @@ A.eq:hover {
 	margin: 1px;
 	padding: 2px 4px 2px 10px;
 	border: 1px solid #8AA2CC;
-	background-attachment: fixed;
-	background-image: url(../images/button_ok.gif);
-	background-repeat: no-repeat;
-	background-position: left center;
 	color: #2F3F5B;
 	cursor: hand;
 	text-align: right;
@@ -231,10 +227,6 @@ A.eq:hover {
 	margin: 1px;
 	padding: 2px 4px 2px 10px;
 	border: 1px solid #8AA2CC;
-	background-attachment: fixed;
-	background-image: url(../images/button_cancel.gif);
-	background-repeat: no-repeat;
-	background-position: left center;
 	color: #2F3F5B;
 	cursor: hand;
 	text-align: right;
@@ -516,13 +508,13 @@ A.eq:hover {
 }
 .test 
 {
-	BACKGROUND-IMAGE: url(../images/aaa.gif); HEIGHT: 25px;
+	BACKGROUND-IMAGE: url(jsp/images/aaa.gif); HEIGHT: 25px;
 	
 }
 .optionOff 
 {
 	color:#909090;
-	background-image:url(../images/optionbgOff.gif);
+	background-image:url(jsp/images/optionbgOff.gif);
 	background-position:right;
 	background-repeat:no-repeat;
 	border-left:1px solid #a0a0a0;
@@ -532,7 +524,7 @@ A.eq:hover {
 }
 .optionOn {
 	color:#1E6BAE;
-	background-image:url(../images/optionbgOn.gif);
+	background-image:url(jsp/images/optionbgOn.gif);
 	background-position:right;
 	background-repeat:no-repeat;
 	border-left:1px solid #808080;

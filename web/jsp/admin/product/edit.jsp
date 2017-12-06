@@ -1,9 +1,41 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <HTML>
 	<HEAD>
 		<meta http-equiv="Content-Language" content="zh-cn">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<LINK href="${pageContext.request.contextPath}/css/Style1.css" type="text/css" rel="stylesheet">
+		<LINK href="${pageContext.request.contextPath}/jsp/css/Style1.css" type="text/css" rel="stylesheet">
+
+		<script type="text/javascript" src="${pageContext.request.contextPath}/jsp/js/jquery-3.2.1.min.js"></script>
+
+		<script type="text/javascript">
+
+            $(function () {
+
+
+
+                //页面加载完毕后去异步获得分类数据
+                $.ajax({
+                    url:"${pageContext.request.contextPath}/adminController?method=findAllCategory",
+                    type:"post",
+                    dataType:"json",
+                    success: function (data) {
+                        //[{"cid":"xx","cname":"xxx"},{},{}]
+                        //拼接多个<option value=""></option>放到select中
+                        var content = "";
+                        for (var i = 0; i < data.length; i++) {
+                            content += "<option value='" + data[i].cid + "'>" + data[i].cname + "</option>";
+                        }
+                        $("#cid").html(content);
+                    },
+
+                });
+
+            });
+
+		</script>
+
+
 	</HEAD>
 	
 	<body>
@@ -24,7 +56,7 @@
 						商品名称：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="pname" value="" id="userAction_save_do_logonName" class="bg"/>
+						<input type="text" name="pname" value="${product.pname}" id="userAction_save_do_logonName" class="bg"/>
 					</td>
 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
 						是否热门：
@@ -32,8 +64,8 @@
 					<td class="ta_01" bgColor="#ffffff">
 						
 						<select name="is_hot">
-							<option value="1">是</option>
-							<option value="0">否</option>
+							<option value="1" <c:if test="${product.is_hot == 1}">selected</c:if> >是</option>
+							<option value="0" <c:if test="${product.is_hot == 0}">selected</c:if> >否</option>
 						</select>
 					</td>
 				</tr>
@@ -42,13 +74,13 @@
 						市场价格：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="market_price" value="" id="userAction_save_do_logonName" class="bg"/>
+						<input type="text" name="market_price" value="${product.market_price}" id="userAction_save_do_logonName" class="bg"/>
 					</td>
 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
 						商城价格：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="shop_price" value="" id="userAction_save_do_logonName" class="bg"/>
+						<input type="text" name="shop_price" value="${product.shop_price}" id="userAction_save_do_logonName" class="bg"/>
 					</td>
 				</tr>
 				<tr>
@@ -64,7 +96,7 @@
 						所属分类：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<select name="categorySecond.csid">
+						<select name="cid" id="cid">
 							<option value="">大型电器</option>
 							<option value="">手机数码</option>
 							<option value="">衣帽箱包</option>
@@ -76,7 +108,7 @@
 						商品描述：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<textarea name="pdesc" rows="5" cols="30"></textarea>
+						<textarea name="pdesc" rows="5" cols="30">${product.pdesc}</textarea>
 					</td>
 				</tr>
 				<tr>

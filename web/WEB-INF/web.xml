@@ -75,5 +75,24 @@
         <url-pattern>/adminLoginController</url-pattern>
     </servlet-mapping>
 
+    <!--后台商品管理-->
+    <servlet>
+        <servlet-name>AdminAddProduct</servlet-name>
+        <servlet-class>cn.liuxi.wshopping.web.Servlet.AdminAddProduct</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminAddProduct</servlet-name>
+        <url-pattern>/adminAddProduct</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>cn.liuxi.wshopping.web.Servlet.AdminController</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/adminController</url-pattern>
+    </servlet-mapping>
 
 </web-app>

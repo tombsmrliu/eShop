@@ -57,7 +57,7 @@ TH {
 										<td width="155" valign="bottom"
 											background="${pageContext.request.contextPath}/jsp/images/mis_05b.jpg">
 											用户名：
-											<font color="blue">zhangsan</font>
+											<font color="blue">${username}</font>
 										</td>
 										<td width="10" align="right"
 											background="${pageContext.request.contextPath}/jsp/images/mis_05b.jpg">
