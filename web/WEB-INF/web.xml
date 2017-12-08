@@ -45,12 +45,21 @@
         <servlet-class>cn.liuxi.wshopping.web.Servlet.UserController</servlet-class>
     </servlet>
 
-
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/userController</url-pattern>
     </servlet-mapping>
 
+    <!--前台验证功能-->
+    <servlet>
+        <servlet-name>CheckImgController</servlet-name>
+        <servlet-class>cn.liuxi.wshopping.web.Servlet.CheckImgController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CheckImgController</servlet-name>
+        <url-pattern>/checkImg</url-pattern>
+    </servlet-mapping>
 
     <!--后台管理入口-->
     <servlet>
@@ -64,18 +73,8 @@
     </servlet-mapping>
 
 
-    <!--后台登录控制器-->
-    <servlet>
-        <servlet-name>AdminLoginController</servlet-name>
-        <servlet-class>cn.liuxi.wshopping.web.Servlet.AdminLoginController</servlet-class>
-    </servlet>
 
-    <servlet-mapping>
-        <servlet-name>AdminLoginController</servlet-name>
-        <url-pattern>/adminLoginController</url-pattern>
-    </servlet-mapping>
-
-    <!--后台商品管理-->
+    <!--后台商品添加控制器-->
     <servlet>
         <servlet-name>AdminAddProduct</servlet-name>
         <servlet-class>cn.liuxi.wshopping.web.Servlet.AdminAddProduct</servlet-class>
@@ -84,7 +83,20 @@
         <servlet-name>AdminAddProduct</servlet-name>
         <url-pattern>/adminAddProduct</url-pattern>
     </servlet-mapping>
-    
+
+
+    <!--后台商品更新控制器-->
+    <servlet>
+        <servlet-name>AdminUpdateProduct</servlet-name>
+        <servlet-class>cn.liuxi.wshopping.web.Servlet.AdminUpdateProduct</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AdminUpdateProduct</servlet-name>
+        <url-pattern>/adminUpdateProduct</url-pattern>
+    </servlet-mapping>
+
+    <!--后台管理控制器-->
     <servlet>
         <servlet-name>AdminController</servlet-name>
         <servlet-class>cn.liuxi.wshopping.web.Servlet.AdminController</servlet-class>

@@ -36,5 +36,6 @@
     <orderEntry type="library" name="gson-2.2.4" level="project" />
     <orderEntry type="library" name="commons-pool2-2.3" level="project" />
     <orderEntry type="library" name="jedis-2.7.0" level="project" />
+    <orderEntry type="library" name="json-lib-2.4-jdk15" level="project" />
   </component>
 </module>

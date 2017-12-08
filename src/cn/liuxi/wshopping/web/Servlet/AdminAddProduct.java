@@ -74,7 +74,7 @@ public class AdminAddProduct extends HttpServlet {
 
                 } else {
 
-                    //文件上传项 获得文件名称 获得文件内容
+                    //文件上传项 获得文件名称和获得文件内容
                     String fileName = item.getName();
 
                     InputStream in = item.getInputStream();
@@ -105,7 +105,7 @@ public class AdminAddProduct extends HttpServlet {
 
             //讲product传递给service层
             IAdminService adminService = new AdminServiceImpl();
-            adminService.savaProduct(product);
+            adminService.saveProduct(product);
 
         } catch (Exception e) {
             e.printStackTrace();

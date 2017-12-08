@@ -24,4 +24,9 @@ public interface IProductService {
     List<Order> queryAllOrders(String uid) throws SQLException;
 
     List<Map<String, Object>> queryAllOrderItemByOid(String oid);
+
+    List<Object> findProductByWord(String word);
+
+
+    Product queryProductByPname(String pname);
 }

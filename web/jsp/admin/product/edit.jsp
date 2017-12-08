@@ -40,8 +40,10 @@
 	
 	<body>
 		<!--  -->
-		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/adminProduct_update.action" method="post" enctype="multipart/form-data">
-			
+		<form   action="${pageContext.request.contextPath}/adminUpdateProduct" method="post" enctype="multipart/form-data">
+
+			<input type="hidden" name="pid" value="${product.pid}">
+
 			<table cellSpacing="1" cellPadding="5" width="100%" align="center" bgColor="#eeeeee" style="border: 1px solid #8ba7e3" border="0">
 				<tr>
 					<td class="ta_01" align="center" bgColor="#afd1f3" colSpan="4"
@@ -80,7 +82,7 @@
 						商城价格：
 					</td>
 					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="shop_price" value="${product.shop_price}" id="userAction_save_do_logonName" class="bg"/>
+						<input type="text" name="shop_price" value="${product.shop_price}" class="bg"/>
 					</td>
 				</tr>
 				<tr>
@@ -97,9 +99,7 @@
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
 						<select name="cid" id="cid">
-							<option value="">大型电器</option>
-							<option value="">手机数码</option>
-							<option value="">衣帽箱包</option>
+
 						</select>
 					</td>
 				</tr>

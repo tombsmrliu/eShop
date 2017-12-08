@@ -18,7 +18,7 @@ public class AdminServiceImpl implements IAdminService {
 
     //保存商品
     @Override
-    public void savaProduct(Product product) {
+    public void saveProduct(Product product) {
 
 
         try {
@@ -128,7 +128,7 @@ public class AdminServiceImpl implements IAdminService {
 
     //保存分类
     @Override
-    public void savaCategory(Category category) {
+    public void saveCategory(Category category) {
 
         try {
 
@@ -183,6 +183,22 @@ public class AdminServiceImpl implements IAdminService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+    }
+
+    //更新商品
+    @Override
+    public void updateProduct(Product product) {
+
+        try {
+
+            adminDao.updateProduct(product);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 

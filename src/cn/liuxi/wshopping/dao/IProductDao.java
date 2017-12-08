@@ -39,4 +39,8 @@ public interface IProductDao {
     List<Order> queryAllOrdersByUid(String uid) throws SQLException;
 
     List<Map<String, Object>> queryAllOrderItemByOid(String oid) throws SQLException;
+
+    List<Object> queryProductByWord(String word) throws SQLException;
+
+    Product queryProductByPname(String pname) throws SQLException;
 }

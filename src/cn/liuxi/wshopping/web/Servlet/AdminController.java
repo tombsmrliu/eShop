@@ -140,7 +140,7 @@ public class AdminController extends BaseServlet {
         category.setCid(UUIDUtils.getUUID());
         category.setCname(cname);
 
-        adminService.savaCategory(category);
+        adminService.saveCategory(category);
 
         response.sendRedirect(request.getContextPath()+"/adminController?method=findAllCategorys");
 
@@ -211,10 +211,17 @@ public class AdminController extends BaseServlet {
         if (!AdminUtils.getUsername().equals(username)) {
 
             response.sendRedirect(request.getContextPath() + "/jsp/admin/index.jsp");
+
+            return null;
+
         }
 
         if (!AdminUtils.getPassword().equals(MD5Utils.md5(AdminUtils.getPrefix() + password))) {
+
             response.sendRedirect(request.getContextPath() + "/jsp/admin/index.jsp");
+
+            return null;
+
         }
 
         request.getSession().setAttribute("username",username);

@@ -10,8 +10,7 @@ import java.util.Map;
 public interface IAdminService {
 
     //保存商品
-    void savaProduct(Product product);
-
+    void saveProduct(Product product);
 
     List<Category> findAllCategory();
 
@@ -25,11 +24,15 @@ public interface IAdminService {
 
     Product findProductByPid(String pid);
 
-    void savaCategory(Category category);
+    //保存分类
+    void saveCategory(Category category);
+
 
     void delCategory(String cid);
 
     Category findCategroyByCid(String cid);
 
     void updateCategory(Category category);
+
+    void updateProduct(Product product);
 }

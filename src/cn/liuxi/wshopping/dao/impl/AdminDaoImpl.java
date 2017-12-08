@@ -147,5 +147,20 @@ public class AdminDaoImpl implements IAdminDao {
 
     }
 
+    //更新商品
+    @Override
+    public void updateProduct(Product product) throws SQLException {
+
+        String sql = " UPDATE product SET pname = ?, market_price = ?, " +
+                " shop_price = ?, pimage = ?, pdate = ?, is_hot = ?, " +
+                " pdesc = ?, pflag = ?, cid = ? WHERE pid = ?";
+
+        queryRunner.update(sql,product.getPname(),product.getMarket_price(),
+                product.getShop_price(),product.getPimage(),product.getPdate(),
+                product.getIs_hot(),product.getPdesc(),product.getPflag(),
+                product.getCategory().getCid(),product.getPid());
+
+    }
+
 
 }

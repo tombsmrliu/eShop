@@ -6,10 +6,7 @@ import cn.liuxi.wshopping.entity.OrderItem;
 import cn.liuxi.wshopping.entity.Product;
 import cn.liuxi.wshopping.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.apache.commons.dbutils.handlers.MapListHandler;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.apache.commons.dbutils.handlers.*;
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -120,6 +117,31 @@ public class ProductDaoImpl implements IProductDao {
         return mapList;
     }
 
+    //根据关键字站内搜索商品
+    @Override
+    public List<Object> queryProductByWord(String word) throws SQLException {
+
+        String sql = "SELECT * FROM product WHERE pname LIKE ? LIMIT 0,8";
+
+        List<Object> productList = queryRunner.query(sql,new ColumnListHandler("pname"), "%" + word + "%");
+
+        return productList;
+
+    }
+
+
+    //根据pname查询商品
+    @Override
+    public Product queryProductByPname(String pname) throws SQLException {
+
+        String sql = "SELECT * FROM product WHERE pname = ?";
+
+        Product product = queryRunner.query(sql, new BeanHandler<Product>(Product.class), pname);
+
+        return product;
+
+    }
+
     //根据pid查询产品详情
     @Override
     public Product queryProductByPid(String pid) throws SQLException {
@@ -159,16 +181,5 @@ public class ProductDaoImpl implements IProductDao {
 
     }
 
-    //测试方法
-    @Test
-    public void test(){
-        try {
-            Product product = queryProductByPid("1");
 
-            System.out.println("product"+product.toString());
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -150,4 +150,35 @@ public class ProductServiceImpl implements IProductService {
         return mapList;
     }
 
+    @Override
+    public List<Object> findProductByWord(String word) {
+
+        List<Object> productList = null;
+        try {
+
+            productList = productDao.queryProductByWord(word);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productList;
+    }
+
+    //通过pname获取商品
+    @Override
+    public Product queryProductByPname(String pname) {
+
+        Product product = null;
+        try {
+
+            product = productDao.queryProductByPname(pname);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return product;
+    }
+
 }

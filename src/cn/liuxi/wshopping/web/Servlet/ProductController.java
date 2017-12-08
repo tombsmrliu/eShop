@@ -12,11 +12,11 @@ import cn.liuxi.wshopping.utils.PaymentUtil;
 import cn.liuxi.wshopping.utils.UUIDUtils;
 import cn.liuxi.wshopping.web.base.BaseServlet;
 import com.google.gson.Gson;
+import net.sf.json.JSONArray;
 import org.apache.commons.beanutils.BeanUtils;
 import redis.clients.jedis.Jedis;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 
-public class ProductController extends BaseServlet{
+public class ProductController extends BaseServlet {
 
     private ICategoryService categoryService = new CategoryServiceImpl();
 
@@ -33,7 +33,7 @@ public class ProductController extends BaseServlet{
     private IProductService productService = new ProductServiceImpl();
 
 
-    public String orderUI(HttpServletRequest request , HttpServletResponse response)throws Exception {
+    public String orderUI(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         return "/jsp/order_info.jsp";
     }
@@ -57,19 +57,18 @@ public class ProductController extends BaseServlet{
             categoryMapListJson = new Gson().toJson(categoryList);
 
             //将结果json存入redis
-            jedis.set("categoryMapListJson",categoryMapListJson );
+            jedis.set("categoryMapListJson", categoryMapListJson);
         }
         //TODO 3响应给前端
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().write(categoryMapListJson);
 
-         return null;
+        return null;
     }
 
 
-
     //主页的逻辑
-    public String index(HttpServletRequest request,HttpServletResponse response) {
+    public String index(HttpServletRequest request, HttpServletResponse response) {
 
 
         //TODO 1获取主页数据
@@ -82,9 +81,8 @@ public class ProductController extends BaseServlet{
             List<Product> newProductAll = indexService.queryNewProductAll();
 
             //TODO 1.2向前端传数据
-            request.setAttribute("hotProductList",hotProductAll);
-            request.setAttribute("newProductList",newProductAll);
-
+            request.setAttribute("hotProductList", hotProductAll);
+            request.setAttribute("newProductList", newProductAll);
 
 
         } catch (Exception e) {
@@ -98,9 +96,31 @@ public class ProductController extends BaseServlet{
     }
 
 
+    //站内搜索商品
+    public String productDetailForWord(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+        //获取pname
+        String pname = request.getParameter("pname");
+
+        //获取产品详情
+        Product product = productService.queryProductByPname(pname);
+
+        if (product == null) {
+
+            request.setAttribute("notPro","没有找到您要的商品");
+
+            return "/jsp/error.jsp";
+        }
+
+        request.setAttribute("product",product);
+
+        return "/jsp/product_info.jsp";
+
+    }
 
     //显示商品详细功能
-    public String productDetail(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+    public String productDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
         //获取pid
@@ -151,53 +171,51 @@ public class ProductController extends BaseServlet{
 
                 //将当前集合转化为string
                 StringBuffer sb = new StringBuffer();
-                for (int i = 0; i < list.size() ; i++) {
+                for (int i = 0; i < list.size(); i++) {
                     sb.append(list.get(i));
                     sb.append("-");
                 }
 
                 //去掉sb尾部的-
-                pids = sb.substring(0,sb.length()-1);
+                pids = sb.substring(0, sb.length() - 1);
 
 
             }
         }
 
 
-        Cookie cookie_pids = new Cookie("pids",pids);
+        Cookie cookie_pids = new Cookie("pids", pids);
         response.addCookie(cookie_pids);
 
 
         //在请求域对象中传递数据
         request.setAttribute("product", product);
-        request.setAttribute("cid",cid);
-        request.setAttribute("currentPage",currentPage);
+        request.setAttribute("cid", cid);
+        request.setAttribute("currentPage", currentPage);
 
-       return "jsp/product_info.jsp";
-
+        return "jsp/product_info.jsp";
 
 
     }
 
 
-
     //显示商品列表功能
-    public String productList(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
+    public String productList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
 
         String cid = request.getParameter("cid");
         String currentPages = request.getParameter("currentPage");
 
-        currentPages = currentPages != null ? currentPages:"1";
+        currentPages = currentPages != null ? currentPages : "1";
 
         int currentPage = Integer.parseInt(currentPages);
         int currentCount = 12;
 
-        PageBean pageBean = productService.queryProductByCId(cid,currentPage,currentCount);
+        PageBean pageBean = productService.queryProductByCId(cid, currentPage, currentCount);
 
 
-        request.setAttribute("pageBean",pageBean);
-        request.setAttribute("cid",cid);
+        request.setAttribute("pageBean", pageBean);
+        request.setAttribute("cid", cid);
 
         return "jsp/product_list.jsp";
 
@@ -205,7 +223,7 @@ public class ProductController extends BaseServlet{
 
 
     //将商品添加到购物车
-    public String addProductToCart(HttpServletRequest request , HttpServletResponse response)throws ServletException,IOException {
+    public String addProductToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
         HttpSession session = request.getSession();
@@ -262,43 +280,41 @@ public class ProductController extends BaseServlet{
         } else {
 
             //如果购物车中没有该商品
-            cart.getCartItems().put(product.getPid(),item);
+            cart.getCartItems().put(product.getPid(), item);
             cart.getCartItems().get(product.getPid()).setSubtotal();
             newsubtotal = buyNum * product.getShop_price();
         }
 
         //合计
-        double total = cart.getTotal() +  newsubtotal;
+        double total = cart.getTotal() + newsubtotal;
         cart.setTotal(total);
 
         //覆盖session中cart
-        session.setAttribute("cart",cart);
+        session.setAttribute("cart", cart);
 
 
-        response.sendRedirect(request.getContextPath()+"/jsp/cart.jsp");
+        response.sendRedirect(request.getContextPath() + "/jsp/cart.jsp");
 
         return null;
     }
 
 
-
     //清空购物车
-    public String clearCart(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException {
+    public String clearCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
 
         //从session中移除
         session.removeAttribute("cart");
 
-        response.sendRedirect(request.getContextPath() +"/jsp/cart.jsp");
+        response.sendRedirect(request.getContextPath() + "/jsp/cart.jsp");
 
         return null;
     }
 
 
-
     //从购物车中移除商品
-    public String deleteProductFromCart(HttpServletRequest request , HttpServletResponse response)throws ServletException,IOException {
+    public String deleteProductFromCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
         HttpSession session = request.getSession();
@@ -313,13 +329,13 @@ public class ProductController extends BaseServlet{
             Map<String, CartItem> cartItems = cart.getCartItems();
 
             //修改合计
-            cart.setTotal(cart.getTotal()-cartItems.get(pid).getSubtotal());
+            cart.setTotal(cart.getTotal() - cartItems.get(pid).getSubtotal());
 
             cartItems.remove(pid);
             cart.setCartItems(cartItems);
         }
 
-        session.setAttribute("cart",cart);
+        session.setAttribute("cart", cart);
 
         response.sendRedirect(request.getContextPath() + "/jsp/cart.jsp");
 
@@ -328,16 +344,16 @@ public class ProductController extends BaseServlet{
 
 
     //提交订单
-    public String submitOrder(HttpServletRequest request , HttpServletResponse response)throws Exception {
+    public String submitOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-         HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
 
-         //判断用户是否登录，如果未登录则跳转登录页面
+        //判断用户是否登录，如果未登录则跳转登录页面
         User user = (User) session.getAttribute("user");
         if (user == null) {
 
             //没有登录
-            response.sendRedirect(request.getContextPath()+"/userController?method=loginUI");
+            response.sendRedirect(request.getContextPath() + "/userController?method=loginUI");
 
             return null;
 
@@ -377,52 +393,51 @@ public class ProductController extends BaseServlet{
 
         //9封装订单中的订单项
         Map<String, CartItem> cartItems = cart.getCartItems();
-        for (Map.Entry<String,CartItem> entry:cartItems.entrySet() ) {
+        for (Map.Entry<String, CartItem> entry : cartItems.entrySet()) {
 
-                 //获取当前购物车项
-                 CartItem cartItem = entry.getValue();
-                 //创建新的订单项
-                 OrderItem orderItem = new OrderItem();
+            //获取当前购物车项
+            CartItem cartItem = entry.getValue();
+            //创建新的订单项
+            OrderItem orderItem = new OrderItem();
 
-                 //1订单项的id
-                 orderItem.setItemid(UUIDUtils.getUUID());
-                 //2订单项内商品的数量
-                 orderItem.setCount(cartItem.getBuyNum());
-                 //3订单项的小计
-                 orderItem.setSubtotal(cartItem.getSubtotal());
-                 //4订单内的商品
-                 orderItem.setProduct(cartItem.getProduct());
-                 //5该订单项属于哪个订单
-                 orderItem.setOrder(order);
+            //1订单项的id
+            orderItem.setItemid(UUIDUtils.getUUID());
+            //2订单项内商品的数量
+            orderItem.setCount(cartItem.getBuyNum());
+            //3订单项的小计
+            orderItem.setSubtotal(cartItem.getSubtotal());
+            //4订单内的商品
+            orderItem.setProduct(cartItem.getProduct());
+            //5该订单项属于哪个订单
+            orderItem.setOrder(order);
 
-                 //将该订单项添加到订单项集合中
-                 order.getOrderItems().add(orderItem);
+            //将该订单项添加到订单项集合中
+            order.getOrderItems().add(orderItem);
         }
 
         //order对象封装完毕 传递到service层
         productService.submitOrder(order);
 
         //将订单信息存储到session域对象中
-        session.setAttribute("order",order);
+        session.setAttribute("order", order);
 
         //页面跳转至订单页
-        response.sendRedirect(request.getContextPath()+"/productController?method=orderUI");
+        response.sendRedirect(request.getContextPath() + "/productController?method=orderUI");
 
         return null;
 
     }
 
 
-
     //确认订单 更新收货人信息  在线支付
-    public String confirmOrder(HttpServletRequest request , HttpServletResponse response)throws Exception {
+    public String confirmOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //1更新收货人信息
         Map<String, String[]> parameterMap = request.getParameterMap();
         Order order = new Order();
 
         try {
-            BeanUtils.populate(order,parameterMap);
+            BeanUtils.populate(order, parameterMap);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -462,20 +477,20 @@ public class ProductController extends BaseServlet{
                 pd_FrpId, pr_NeedResponse, keyValue);
 
 
-        String url = "https://www.yeepay.com/app-merchant-proxy/node?pd_FrpId="+pd_FrpId+
-                "&p0_Cmd="+p0_Cmd+
-                "&p1_MerId="+p1_MerId+
-                "&p2_Order="+p2_Order+
-                "&p3_Amt="+p3_Amt+
-                "&p4_Cur="+p4_Cur+
-                "&p5_Pid="+p5_Pid+
-                "&p6_Pcat="+p6_Pcat+
-                "&p7_Pdesc="+p7_Pdesc+
-                "&p8_Url="+p8_Url+
-                "&p9_SAF="+p9_SAF+
-                "&pa_MP="+pa_MP+
-                "&pr_NeedResponse="+pr_NeedResponse+
-                "&hmac="+hmac;
+        String url = "https://www.yeepay.com/app-merchant-proxy/node?pd_FrpId=" + pd_FrpId +
+                "&p0_Cmd=" + p0_Cmd +
+                "&p1_MerId=" + p1_MerId +
+                "&p2_Order=" + p2_Order +
+                "&p3_Amt=" + p3_Amt +
+                "&p4_Cur=" + p4_Cur +
+                "&p5_Pid=" + p5_Pid +
+                "&p6_Pcat=" + p6_Pcat +
+                "&p7_Pdesc=" + p7_Pdesc +
+                "&p8_Url=" + p8_Url +
+                "&p9_SAF=" + p9_SAF +
+                "&pa_MP=" + pa_MP +
+                "&pr_NeedResponse=" + pr_NeedResponse +
+                "&hmac=" + hmac;
 
         //重定向到第三方支付平台
         response.sendRedirect(url);
@@ -486,9 +501,8 @@ public class ProductController extends BaseServlet{
     }
 
 
-
     //我的订单
-    public String myOrders(HttpServletRequest request , HttpServletResponse response)throws Exception {
+    public String myOrders(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         HttpSession session = request.getSession();
 
@@ -497,7 +511,7 @@ public class ProductController extends BaseServlet{
         if (user == null) {
 
             //没有登录
-            response.sendRedirect(request.getContextPath()+"/userController?method=loginUI");
+            response.sendRedirect(request.getContextPath() + "/userController?method=loginUI");
 
             return null;
 
@@ -524,11 +538,11 @@ public class ProductController extends BaseServlet{
                         //从map中取出count subtotal 封装到orderitem中
                         OrderItem item = new OrderItem();
 
-                        BeanUtils.populate(item,map);
+                        BeanUtils.populate(item, map);
                         //从map中取出pimage，pname，shop_price封装到product中
                         Product product = new Product();
 
-                        BeanUtils.populate(product,map);
+                        BeanUtils.populate(product, map);
                         //将product封装到orderitem
                         item.setProduct(product);
                         //System.out.println(item);
@@ -546,12 +560,40 @@ public class ProductController extends BaseServlet{
 
         //System.out.println(orderList);
         //将封装好的orderList放入request域对象
-        request.setAttribute("orderList",orderList);
+        request.setAttribute("orderList", orderList);
 
         return "/jsp/order_list.jsp";
 
     }
 
+
+    //站内搜索商品
+    public String searchWord(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        //获得关键字
+        String word = request.getParameter("word");
+
+        //查询该关键字的所有商品
+        List<Object> productList = productService.findProductByWord(word);
+
+        //["xiaomi","huawei",""...]
+
+        //使用json的转换工具将对象或集合转成json格式的字符串
+		/*JSONArray fromObject = JSONArray.fromObject(productList);
+		String string = fromObject.toString();
+		System.out.println(string);*/
+
+        Gson gson = new Gson();
+        String json = gson.toJson(productList);
+        System.out.println(json);
+
+        response.setContentType("text/html;charset=UTF-8");
+
+        response.getWriter().write(json);
+
+        return null;
+
+    }
 
 
 }

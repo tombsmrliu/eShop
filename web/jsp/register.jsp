@@ -69,6 +69,11 @@
 
     });
 
+    //刷新验证码
+    function updateImg(obj) {
+        obj.src = "${pageContext.request.contextPath}/checkImg?time="+new Date().getTime();
+    }
+
 </script>
 
 
@@ -148,10 +153,10 @@
                     <label for="valcode" class="col-sm-2 control-label">验证码</label>
                     <div class="col-sm-3">
                         <input type="text" name="valcode" id="valcode" class="form-control">
-
+                        <span class="error">${valcodemsg}</span>
                     </div>
                     <div class="col-sm-2">
-                        <img src="jsp/image/captcha.jhtml"/>
+                        <img src="${pageContext.request.contextPath}/checkImg" onclick="updateImg(this)"/>
                     </div>
 
                 </div>

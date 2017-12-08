@@ -36,4 +36,6 @@ public interface IAdminDao {
 
     void updateCategory(Category category) throws SQLException;
 
+    void updateProduct(Product product) throws SQLException;
+
 }

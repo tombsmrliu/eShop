@@ -1,6 +1,6 @@
 package cn.liuxi.wshopping.web.Servlet;
 
-import cn.liuxi.wshopping.entity.Result;
+
 import cn.liuxi.wshopping.entity.User;
 import cn.liuxi.wshopping.service.IUserService;
 import cn.liuxi.wshopping.service.impl.UserServiceImpl;
@@ -9,17 +9,12 @@ import cn.liuxi.wshopping.utils.MailUtils;
 import cn.liuxi.wshopping.utils.MyBeanUtils;
 import cn.liuxi.wshopping.utils.UUIDUtils;
 import cn.liuxi.wshopping.web.base.BaseServlet;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class UserController extends BaseServlet{
@@ -74,6 +69,20 @@ public class UserController extends BaseServlet{
 
         HttpSession session = request.getSession();
 
+        //验证码校验
+        //获得页面输入的验证
+        String checkCode_client = request.getParameter("valcode");
+        //获得生成图片的文字的验证码
+        String checkCode_session = (String) request.getSession().getAttribute("checkcode_session");
+
+
+
+        //比对页面的和生成图片的文字的验证码是否一致
+        if(!checkCode_session.equals(checkCode_client) && checkCode_client != null){
+            request.setAttribute("valcodemsg", "您的验证码不正确");
+            return "/jsp/login.jsp";
+        }
+
         //获取用户名
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -91,7 +100,7 @@ public class UserController extends BaseServlet{
 
         if (user == null) {
             //用户名不存在
-            request.setAttribute("msg","用户名不存在");
+            request.setAttribute("usernamemsg","用户名不存在");
 
             return "/jsp/login.jsp";
 
@@ -130,7 +139,7 @@ public class UserController extends BaseServlet{
             } else {
 
                 //密码错误
-                request.setAttribute("msg","密码错误");
+                request.setAttribute("pwdmsg","密码错误");
 
                 return "/jsp/login.jsp";
 
@@ -170,8 +179,25 @@ public class UserController extends BaseServlet{
 
     public String register(HttpServletRequest request , HttpServletResponse response)throws Exception {
 
+        HttpSession session = request.getSession();
 
-       //获取数据并且封装
+        //验证码校验
+        //获得页面输入的验证
+        String checkCode_client = request.getParameter("valcode");
+        //获得生成图片的文字的验证码
+        String checkCode_session = (String) session.getAttribute("checkcode_session");
+
+
+
+        //比对页面的和生成图片的文字的验证码是否一致
+        if(!checkCode_session.equals(checkCode_client) && checkCode_client != null){
+            request.setAttribute("valcodemsg", "您的验证码不正确");
+            return "/jsp/register.jsp";
+        }
+
+
+
+        //获取数据并且封装
         User user = MyBeanUtils.populate(User.class, request.getParameterMap());
 
         //初始化用户Id
@@ -215,8 +241,6 @@ public class UserController extends BaseServlet{
 
         return null;
     }
-
-
 
     public String active(HttpServletRequest request , HttpServletResponse response) throws Exception {
 
