@@ -171,7 +171,7 @@ public class ProductController extends BaseServlet {
 
                 //将当前集合转化为string
                 StringBuffer sb = new StringBuffer();
-                for (int i = 0; i < list.size(); i++) {
+                for (int i = 0; i < list.size() && i < 7; i++) {
                     sb.append(list.get(i));
                     sb.append("-");
                 }
@@ -216,6 +216,28 @@ public class ProductController extends BaseServlet {
 
         request.setAttribute("pageBean", pageBean);
         request.setAttribute("cid", cid);
+
+
+        //定义一个记录历史商品信息的集合
+        List<Product> historyProductList = new ArrayList<Product>();
+
+        //获得客户端携带名字叫pids的cookie
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null){
+            for(Cookie cookie:cookies){
+                if("pids".equals(cookie.getName())){
+                    String pids = cookie.getValue();//3-2-1
+                    String[] split = pids.split("-");
+                    for(String pid : split){
+                        Product pro = productService.queryProductByPid(pid);
+                        historyProductList.add(pro);
+                    }
+                }
+            }
+        }
+
+        //将历史记录的集合放到域中
+        request.setAttribute("historyProductList", historyProductList);
 
         return "jsp/product_list.jsp";
 

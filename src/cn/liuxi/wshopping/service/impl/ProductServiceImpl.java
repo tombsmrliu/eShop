@@ -65,7 +65,7 @@ public class ProductServiceImpl implements IProductService {
         return pageBean;
     }
 
-    //根据pid查询所有商品
+    //根据pid查询商品
     @Override
     public Product queryProductByPid(String pid) throws SQLException {
 
@@ -180,5 +180,7 @@ public class ProductServiceImpl implements IProductService {
 
         return product;
     }
+
+
 
 }

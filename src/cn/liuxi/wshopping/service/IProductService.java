@@ -29,4 +29,6 @@ public interface IProductService {
 
 
     Product queryProductByPname(String pname);
+
+
 }
